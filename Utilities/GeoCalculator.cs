@@ -35,8 +35,9 @@ public static class GeoCalculator
     public static double PointToLineDistance(double[] point, List<double[]> lineCoords, string units = "km")
     {
         double minDistance = double.MaxValue;
+        int count = lineCoords.Count - 1;
 
-        for (int i = 0; i < lineCoords.Count - 1; i++)
+        for (int i = 0; i < count; i++)
         {
             double dist = PointToSegmentDistance(point, lineCoords[i], lineCoords[i + 1]);
             if (dist < minDistance)
@@ -103,8 +104,9 @@ public static class GeoCalculator
     public static double CalculateLineStringLength(List<double[]> coordinates, string units = "nm")
     {
         double totalLength = 0;
+        int count = coordinates.Count - 1;
 
-        for (int i = 0; i < coordinates.Count - 1; i++)
+        for (int i = 0; i < count; i++)
         {
             totalLength += HaversineDistance(coordinates[i], coordinates[i + 1]);
         }

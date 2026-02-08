@@ -54,51 +54,38 @@ public class DijkstraPathFinder
 
         var distances = new Dictionary<string, double>();
         var previous = new Dictionary<string, string?>();
-        var unvisited = new HashSet<string>(_vertices.Keys);
+        var priorityQueue = new PriorityQueue<string, double>();
 
-        foreach (var vertex in _vertices.Keys)
-        {
-            distances[vertex] = double.MaxValue;
-            previous[vertex] = null;
-        }
         distances[startKey] = 0;
+        priorityQueue.Enqueue(startKey, 0);
 
-        while (unvisited.Count > 0)
+        while (priorityQueue.Count > 0)
         {
-            string? current = null;
-            double minDistance = double.MaxValue;
+            string current = priorityQueue.Dequeue();
 
-            foreach (var vertex in unvisited)
-            {
-                if (distances[vertex] < minDistance)
-                {
-                    minDistance = distances[vertex];
-                    current = vertex;
-                }
-            }
-
-            if (current == null || current == endKey || minDistance == double.MaxValue)
+            if (current == endKey)
                 break;
 
-            unvisited.Remove(current);
+            if (!distances.TryGetValue(current, out double currentDistance))
+                continue;
 
-            if (_graph.ContainsKey(current))
+            if (_graph.TryGetValue(current, out var edges))
             {
-                foreach (var edge in _graph[current])
+                foreach (var edge in edges)
                 {
-                    if (!unvisited.Contains(edge.To)) continue;
-
-                    double alt = distances[current] + edge.Weight;
-                    if (alt < distances[edge.To])
+                    double alt = currentDistance + edge.Weight;
+                    
+                    if (!distances.TryGetValue(edge.To, out double existingDistance) || alt < existingDistance)
                     {
                         distances[edge.To] = alt;
                         previous[edge.To] = current;
+                        priorityQueue.Enqueue(edge.To, alt);
                     }
                 }
             }
         }
 
-        if (previous[endKey] == null && startKey != endKey)
+        if (!previous.ContainsKey(endKey) && startKey != endKey)
             return null;
 
         var path = new List<double[]>();
@@ -106,14 +93,16 @@ public class DijkstraPathFinder
 
         while (currentNode != null)
         {
-            path.Insert(0, _vertices[currentNode]);
-            currentNode = previous[currentNode];
+            path.Add(_vertices[currentNode]);
+            currentNode = previous.GetValueOrDefault(currentNode);
         }
+
+        path.Reverse();
 
         return new PathResult
         {
             Path = path,
-            Distance = distances[endKey]
+            Distance = distances.GetValueOrDefault(endKey, double.MaxValue)
         };
     }
 

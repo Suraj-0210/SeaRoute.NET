@@ -6,12 +6,16 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>SeaRoute.NET</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.3</Version>
     <Authors>SeaRoute.NET Contributors</Authors>
     <Description>A .NET package to calculate the shortest sea route between two points on Earth.</Description>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <PackageTags>maritime;route;searoute;shipping;dijkstra;dotnet</PackageTags>
-    <RepositoryUrl>https://github.com/yourusername/searoute-dotnet</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Suraj-0210/SeaRoute.NET</RepositoryUrl>
+    <PublishTrimmed>true</PublishTrimmed>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <TrimMode>partial</TrimMode>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

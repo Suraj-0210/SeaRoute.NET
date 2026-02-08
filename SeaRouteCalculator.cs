@@ -34,10 +34,7 @@ public class SeaRouteCalculator
             var route = _pathFinder.FindPath(snappedOrigin, snappedDestination);
 
             if (route == null)
-            {
-                Console.WriteLine("No route found");
                 return null;
-            }
 
             double length = GeoCalculator.CalculateLineStringLength(route.Path, units);
 
@@ -109,17 +106,18 @@ public class SeaRouteCalculator
             }
         }
 
-        double? nearestVertexDist = null;
+        double nearestVertexDist = double.MaxValue;
         double[]? nearestCoord = null;
 
-        foreach (var coord in _marnet.Features[nearestLineIndex].Geometry.Coordinates)
+        var coordinates = _marnet.Features[nearestLineIndex].Geometry.Coordinates;
+        for (int i = 0; i < coordinates.Count; i++)
         {
-            double distToVertex = GeoCalculator.RhumbDistance(point, coord, "km");
+            double distToVertex = GeoCalculator.RhumbDistance(point, coordinates[i], "km");
 
-            if (nearestVertexDist == null || distToVertex < nearestVertexDist)
+            if (distToVertex < nearestVertexDist)
             {
                 nearestVertexDist = distToVertex;
-                nearestCoord = coord;
+                nearestCoord = coordinates[i];
             }
         }
 
