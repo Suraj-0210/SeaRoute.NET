@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SeaRoute.NET</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>SeaRoute.NET Contributors</Authors>
+    <Description>A .NET package to calculate the shortest sea route between two points on Earth.</Description>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+    <PackageTags>maritime;route;searoute;shipping;dijkstra;dotnet</PackageTags>
+    <RepositoryUrl>https://github.com/yourusername/searoute-dotnet</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetTopologySuite" Version="2.5.0" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="4.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\marnet_densified.json" />
+  </ItemGroup>
+
+</Project>
