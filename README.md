@@ -123,9 +123,36 @@ if (route != null)
 
 - Calculate shortest sea routes using Dijkstra's algorithm
 - Automatic snapping of land points to nearest sea network vertex
+- **Dynamically add ports to the maritime network** for better coverage
 - Support for multiple distance units
 - Returns GeoJSON-compliant LineString features
 - Embedded maritime network data (no external files needed)
+- Built-in port registry for common worldwide ports
+
+## Adding Custom Ports
+
+If a port is not well-covered by the default maritime network, you can add it dynamically:
+
+```csharp
+var calculator = new SeaRouteCalculator();
+
+// Add a single port
+calculator.AddPortToNetwork(
+    portLon: 1.3515,
+    portLat: 51.9542,
+    portName: "Felixstowe",
+    maxConnectionDistanceKm: 200
+);
+
+// Add multiple ports using the built-in registry
+calculator.AddPortsToNetwork(PortRegistry.UKPorts.GetAll());
+calculator.AddPortsToNetwork(PortRegistry.EuropeanPorts.GetAll());
+
+// Now calculate routes to/from these ports
+var route = calculator.CalculateRoute(-46.3017, -23.954, 1.3515, 51.9542);
+```
+
+See [ADDING_PORTS.md](ADDING_PORTS.md) for detailed instructions and best practices.
 
 ## Technical Details
 
